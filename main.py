@@ -1,4 +1,5 @@
 import random
+import time
 
 suits = ["Spades", "Clubs", "Diamonds", "Hearts"]
 cards = {"Ace": [1, 11], "Two": 2, "Three": 3, "Four": 4, "Five": 5, "Six": 6, "Seven": 7, "Eight": 8, "Nine": 9, "Ten": 10, "Jack": 10, "Queen": 10, "King": 10}
@@ -63,6 +64,7 @@ class Cards:
             print('Less')
         elif sum(self.playervalues) == 21:
             print('Congratulations! You win!')
+            exit()
         else:
             print('You went over 21! You lose!')
 
@@ -73,31 +75,33 @@ class Cards:
             print("Comp cards are: " + ', '.join(self.compcards))
         else:
             self.evaluate_compcardvalue()
-            print(self.playervalues)
+            print(sum(self.playervalues))
+            print(sum(self.compvalues))
 
-            if sum(self.compvalues) < 21 and sum(self.compvalues) < sum(self.playervalues):
-                while True:
+            while True:
+                if sum(self.compvalues) < 21 and sum(self.compvalues) < sum(self.playervalues):
+                    time.sleep(2)
                     self.compcards.append(d.deck.pop())
                     print("Comp cards are: " + ', '.join(self.compcards))
                     self.evaluate_compcardvalue()
                     print(sum(self.compvalues))
-                    print(d)
 
-            elif sum(self.compvalues) <= 21 and sum(self.playervalues) > 21:
-                print('The Computer has won!')
+                elif sum(self.playervalues) > 21 >= sum(self.compvalues) or 21 >= sum(self.compvalues) > sum(self.playervalues):
+                    print('The Computer has won!')
+                    break
 
+                elif sum(self.compvalues) > 21 >= sum(self.playervalues):
+                    print('You have won!')
+                    break
 
-            elif sum(self.compvalues) > 21 and sum(self.playervalues) <= 21:
-                print('You have won!')
+                elif sum(self.compvalues) > 21 and sum(self.playervalues) > 21:
+                    print('Nobody has won')
+                    break
 
-
-            elif sum(self.compvalues) > 21 and sum(self.playervalues) > 21:
-                print('Nobody has won')
-
-
-            else:
-                print(self.compvalues)
-                print('here')
+                else:
+                    print(self.compvalues)
+                    print('here')
+                    break
 
 
     def evaluate_compcardvalue(self):
@@ -113,18 +117,9 @@ class Cards:
 
         print(self.compvalues)
 
-    def evaluate_comp_total(self):
-        if sum(self.compvalues) < 21:
-            print('Less')
-        elif sum(self.compvalues) == 21:
-            print('Comp wins')
-        else:
-            print('You went over 21! You lose!')
-
 
 d = Deck()
 d.create_deck()
-print(d)
 
 c = Cards()
 for x in range(2):
@@ -134,8 +129,6 @@ c.evaluate()
 
 for y in range(2):
     c.give_comp_cards()
-
-c.evaluate_comp_total()
 
 
 
